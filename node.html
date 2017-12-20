@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>IOTframe
+		</title>
+	</head>
+	<body>
+		<iframe id="iotframe" width="500px"height="300px"src="http://192.168.1.27"></iframe><br />
+		<button onclick="on()">ON</button>
+		<button onclick="off()">OFF</button>
+		<script>
+			function on() {
+				document.getElementById('iotframe').src = "http://192.168.1.27/LEDOff";
+			}
+			function off() {
+				document.getElementById('iotframe').src = "http://192.168.1.27/LEDOn";
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>DICTATION</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+	</head>
+	<!-- <body onload="startDictation(event)"> -->
+	<body>
+		<div id="results">
+			<!-- <span id="input" class="final"></span> -->
+			<!-- <form action="http://www.google.com/" target="_blank"> -->
+			<textarea id="input" cols="100" rows="5"></textarea>
+			<!--   <input type="text" required pattern="\b(is|open )?google( |a-z|A-Z)?\b" title="apple" novalidate> -->
+			<!-- <input type="submit">
+			</form> -->
+		</div>
+		<!-- <button onclick="responsiveVoice.speak('apple')">SPEAK</button> -->
+		<!-- <textarea id="field"></textarea> -->
+		<button onclick="startDictation()">Listen</button>
+		<button onclick="respond()">Respond</button>
+		<!-- <button onclick="appleTest()">check for apple</button> -->
+		<script>
+			function respond() {
+				if (document.getElementById("input").value.trim() == '') {
+					// alert("empty");
+					keywords();
+					// document.getElementById("input").style.display = "2";
+				} else {
+					// alert("not empty");
+					keywords();
+					// document.getElementById("input").value = '';
+				}
+				// while (true) { }
+				//
+				// if (document.getElementById("input").value.trim() == '') { 	document.getElementById('input').value = ' '; }
+			}
+			function keywords() {
+				var str = document.getElementById('input').value;
+				responsiveVoice.setDefaultVoice("UK English Male");
+				if (str.includes("Apple pie")) {
+					// window.alert('dope');
+					responsiveVoice.speak('Yes, the word apple is present here')
+				} else if (str.includes("Hi") || str.includes("Hello")) {
+					hiHello();
+					responsiveVoice.speak(words[0]);
+				} else if (str.includes("Quiet") || str.includes("Shut") || str.includes("Mute") || str.includes("Stop")) {} else if (str.includes("Jingle Bells")) {
+					responsiveVoice.speak("hello world", "UK English Male", {rate: 1.5});
+				} else if (str.includes("hay") || str.includes("Hey")) {
+					responsiveVoice.speak('whats up');
+				}
+				startDictation();
+			}
+			var words = ['Oh Hi', 'Hello Sir', 'yes sir', 'Hi', 'Hello'];
+			function hiHello() {
+				words.sort(function (a, b) {
+					return 0.5 - Math.random()
+				});
+				// document.getElementById("demo").innerHTML = words[0]; responsiveVoice.speak(words[0]);
+			}
+			// String.prototype.trim = function () {} return this.replace(/^\s+|\s+$/g, ""); function appleTest() { 	var str = document.getElementById('input').value; 	if (document.getElementById("demo").innerHTML = str.includes('apple');) {
+			// 		responsiveVoice.speak('yes apple it is'); 	} } function apple() { 	var textarea = document.getElementById('input'); 	var word = 'Apple'; 	var textValue = textarea.value; //-> don't use .innerHTML since there is no HTML in a textarea element 	//
+			// if 	(document.getElementById('input').value = "apple") {responsiveVoice.speak('yes it is apple')} 	if (textValue.indexOf(word) != -1) { 		alert('found') 	} }
+		</script>
+		<script type="text/javascript">
+			//setup before functions
+			var typingTimer; //timer identifier
+			var doneTypingInterval = 1000; //time in ms, 5 second for example
+			var $input = $('#input');
+			//on keyup, start the countdown
+			$input.on('keyup', function () {
+				clearTimeout(typingTimer);
+				typingTimer = setTimeout(doneTyping, doneTypingInterval);
+			});
+			//on keydown, clear the countdown
+			$input.on('keydown', function () {
+				clearTimeout(typingTimer);
+			});
+			//user is "finished typing," do something
+			function doneTyping() {
+				// window.alert('yay it works'); document.getElementById('input').value = ""
+			}
+			// -------------------------DICTATION
+			var final_transcript = '';
+			var recognizing = false;
+			if ('webkitSpeechRecognition' in window) {
+				var recognition = new webkitSpeechRecognition();
+				// recognition.continuous = true;
+				recognition.continuous = false;
+				recognition.interimResults = true;
+				recognition.onstart = function () {
+					recognizing = true;
+				};
+				recognition.onerror = function (event) {
+					console.log(event.error);
+				};
+				recognition.onend = function () {
+					recognizing = false;
+					// responsiveVoice.speak('done');
+					respond();
+				};
+				// recognition.onresult = function (event) { 	var interim_transcript = ''; 	for (var i = event.resultIndex; i < event.results.length; ++i) { 		if (event.results[i].isFinal) { 			final_transcript += event.results[i][0].transcript; 		} else {
+				// 			interim_transcript += event.results[i][0].transcript; 		} 	} 	final_transcript = capitalize(final_transcript); 	input.value = linebreak(final_transcript); 	// interim_span.value = linebreak(interim_transcript); };
+				recognition.onresult = function (event) {
+					var interim_transcript = '';
+					for (var i = event.resultIndex; i < event.results.length; ++i) {
+						if (event.results[i].isFinal) {
+							final_transcript += event.results[i][0].transcript;
+						} else {
+							interim_transcript += event.results[i][0].transcript;
+						}
+					}
+					final_transcript = capitalize(final_transcript);
+					input.value = linebreak(final_transcript);
+					// interim_span.value = linebreak(interim_transcript);
+				};
+			}
+			var two_line = /\n\n/g;
+			var one_line = /\n/g;
+			function linebreak(s) {
+				return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+			}
+			function capitalize(s) {
+				return s.replace(s.substr(0, 1), function (m) {
+					return m.toUpperCase();
+				});
+			}
+			function startDictation(event) {
+				if (recognizing) {
+					recognition.stop();
+					return;
+				}
+				final_transcript = '';
+				recognition.lang = 'en-US';
+				recognition.start();
+				input.value = '';
+				// interim_span.value = '';
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Chad</title>
+	</head>
+	<body>
+		<div>
+			<style>
+				/*/
+				/ You can customize the css styles here*/
+				/*#botlibrebox {}
+			#botlibreboxbar {
+				display:;
+			}*/
+				/*#botlibreboxbarmax {}*/
+				/*#botlibreboxmin {}
+			#botlibreboxmax {}*/
+				/*#botlibreboxclose {
+				display: none !important;
+			}*/
+				#botlibrebubble-text {
+					display: none !important;
+				}
+				#botlibrebox-input {}
+				.menu {
+					display: none !important;
+				}
+				.boxmenu {
+					display: none !important;
+				}
+				#box {
+					display: inline;
+				}
+				#boxbar {
+					display: none;
+				}
+			</style>
+			<script type='text/javascript' src='https://www.botlibre.com/scripts/sdk.js'></script>
+			<script type='text/javascript'>
+				SDK.applicationId = "7086851345331074467";
+				SDK.backlinkURL = "http://www.botlibre.com/login?affiliate=arlora";
+				var sdk = new SDKConnection();
+				var web = new WebChatbotListener();
+				web.connection = sdk;
+				web.instance = "18203728";
+				web.instanceName = "Friday1";
+				web.backlink = true;
+				web.speak = false;
+				web.avatar = false;
+				web.popupURL = "https://www.botlibre.com/chat?&id=18203728&embedded=true&avatar=false&speak=false&facebookLogin=false&showTitle=false&application=7086851345331074467&background=%23fff&prompt=You+say&send=Send";
+				web.createBox();
+			</script>
+		</body>
+	</html>

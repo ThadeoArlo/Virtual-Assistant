@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Friday 1</title>
+	</head>
+	<body>
+		<!-- ______________________________Friday________________________ -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+		<button id="start" onclick="startDictation()">Listen</button>
+		<button id="stop">Stop</button>
+		<button onclick="respond()">Respond</button>
+		<!-- <textarea id="chat" cols="100" rows="5"></textarea> -->
+		<script>
+			$('#stop').click(function () {
+				// id = startDictation();
+				window.clearInterval(startDictation());
+			});
+			// function checkCall() { 	var sentence = document.getElementById('chat').value; 	if (sentence.includes("Friday")) { 		checkKeyword(); 	} else { 		// answer(); 	} }
+			function checkKeyword() {
+				var sentence = document.getElementById('chat').value;
+				if (sentence.includes("Hi") || sentence.includes("Hello") || sentence.includes("Apple pie") || sentence.includes("on")) {
+					keywords();
+				} else {
+					// web.sendMessage(); setTimeout(answer, 1000);
+					answer();
+				}
+			}
+			// function respond() { 	if (document.getElementById("chat").value.trim() == '') { 		keywords(); 	} else { 		// setTimeout(answer, 900); 	} }
+			function answer() {
+				web.sendMessage();
+				setTimeout(sayAns, 1200);
+				function sayAns() {
+					var r = document.getElementById('response').innerHTML;
+					responsiveVoice.speak(r);
+					// if (document.getElementByError: source does not appear to be markup. startDictation(); $("div").stop();
+				}
+				setTimeout(startDictation, 1000);
+			}
+			// if (document.getElementById("chat").value = "") { 	window.alert("u say nothing"); } else { }
+			function keywords() {
+				var str = document.getElementById('chat').value;
+				if (str.includes("Apple pie")) {
+					// window.alert('dope');
+					responsiveVoice.speak('Yes, the word apple is present here');
+				} else if (str.match(/(?=.*lights)(?=.*on)/)) {
+					responsiveVoice.speak('turning on the lights');
+				} else if (str.includes("Hi") || str.includes("Hello")) {
+					// hiHello();
+					var hiHelloReply = ['Oh Hi', 'Hello Sir', 'yes sir'];
+					hiHelloReply.sort(function (a, b) {
+						return 0.5 - Math.random()
+					});
+					responsiveVoice.speak(hiHelloReply[0]);
+				}
+				//  else if (str.includes('Lights on')) {  	responsiveVoice.speak('turning on the lights'); }  else if (str.includes("")) { 	responsiveVoice.speak(""); }
+				setTimeout(startDictation, 1000);
+			}
+		</script>
+		<!-- <button onclick="myFunction()">Try it</button>
+		<p id="demo"></p>
+		<script>
+			function myFunction() {
+				var lightsOn = "Hi Jarvis, can you turn on the lights";
+				if (result = lightsOn.match(/(?=.*)(?=.*lights)/)) {
+					document.getElementById("demo").innerHTML = "yay";
+				} else {
+					document.getElementById("demo").innerHTML = "noo";
+				}
+			}
+		</script> -->
+		<script type="text/javascript">
+			// -------------------------DICTATION
+			var final_transcript = '';
+			var recognizing = false;
+			if ('webkitSpeechRecognition' in window) {
+				var recognition = new webkitSpeechRecognition();
+				// recognition.continuous = true;
+				recognition.continuous = false;
+				recognition.interimResults = true;
+				recognition.onstart = function () {
+					recognizing = true;
+				};
+				// recognition.onerror = function (event) { 	console.log(event.error); 	window.clearInterval(startDictation()); };
+				recognition.onerror = function () {
+					// window.alert('u said nothing');
+					document.getElementById("response").innerHTML = '';
+				};
+				recognition.onend = function () {
+					recognizing = false;
+					// if (document.getElementById('chat').value = '') { 	window.alert('u said nothing1'); } else { 	checkKeyword(); }
+					checkKeyword();
+					// respond(); setTimeout(answer, 700); setTimeout(respond, 700); keywords(); web.sendMessage(); startDictation();
+				};
+				recognition.onresult = function (event) {
+					var interim_transcript = '';
+					for (var i = event.resultIndex; i < event.results.length; ++i) {
+						if (event.results[i].isFinal) {
+							final_transcript += event.results[i][0].transcript;
+						} else {
+							interim_transcript += event.results[i][0].transcript;
+						}
+					}
+					final_transcript = capitalize(final_transcript);
+					chat.value = linebreak(final_transcript);
+				};
+			}
+			var two_line = /\n\n/g;
+			var one_line = /\n/g;
+			function linebreak(s) {
+				return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+			}
+			function capitalize(s) {
+				return s.replace(s.substr(0, 1), function (m) {
+					return m.toUpperCase();
+				});
+			}
+			function startDictation(event) {
+				if (recognizing) {
+					recognition.stop();
+					return;
+				}
+				final_transcript = '';
+				recognition.lang = 'en-US';
+				recognition.start();
+				chat.value = '';
+				document.getElementById('response').innerHTML = '';
+			}
+		</script>
+		<!-- __________________________BOT LIBRE___________________ -->
+		<style>
+			#botlibrebubble-text {
+				display: none !important;
+			}
+			#botlibrebox-input {}
+			.menu {
+				display: none !important;
+			}
+			.boxmenu {
+				display: none !important;
+			}
+			#box {
+				display: inline;
+			}
+			#boxbar {
+				display: none;
+			}
+		</style>
+		<script type='text/javascript' src='https://www.botlibre.com/scripts/sdk.js'></script>
+		<script type='text/javascript'>
+			SDK.applicationId = "7086851345331074467";
+			SDK.backlinkURL = "http://www.botlibre.com/login?affiliate=arlora";
+			var sdk = new SDKConnection();
+			var web = new WebChatbotListener();
+			web.connection = sdk;
+			web.instance = "18203728";
+			web.instanceName = "Friday1";
+			web.backlink = true;
+			web.speak = false;
+			web.avatar = false;
+			web.popupURL = "https://www.botlibre.com/chat?&id=18203728&embedded=true&avatar=false&speak=false&facebookLogin=false&showTitle=false&application=7086851345331074467&background=%23fff&prompt=You+say&send=Send";
+			web.createBox();
+		</script>
+	</body>
+</html>
